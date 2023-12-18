@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  postgis_db:
+    container_name: ${DB_CONTAINER_NAME}
+    image: postgis/postgis:15-3.4
+    command: postgres -c hba_file=/etc/pg_hba.conf
+    ports:
+      - ${DB_EXTERNAL_PORT}:${DB_INTERNAL_PORT}
+    env_file:
+      - .env_variables
+    volumes:
+      - ./Kioku_DB/scripts/:/docker-entrypoint-initdb.d/
+      - ./Kioku_DB/pg_hba/pg_hba.conf:/etc/pg_hba.conf
+      - ./Kioku_DB/local-db-data:/var/lib/postgresql/data
+    networks:
+      - kioku_net
+
+  pgadmin4:
+    container_name: ${PGADMIN_CONTAINER_NAME}
+    image: dpage/pgadmin4
+    restart: "no"
+    env_file:
+      - .env_variables
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: ${PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION}
+      PGADMIN_CONFIG_CONSOLE_LOG_LEVEL: ${PGADMIN_CONFIG_CONSOLE_LOG_LEVEL}
+    ports:
+      - ${PGADMIN_EXTERNAL_PORT}:${PGADMIN_INTERNAL_PORT}
+    depends_on:
+      - postgis_db
+    networks:
+      - kioku_net
+
+networks:
+  kioku_net:
+    driver: bridge
