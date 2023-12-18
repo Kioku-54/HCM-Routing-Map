@@ -1,0 +1,19 @@
+azure-identity
+azure-storage-blob
+elasticsearch
+elasticsearch-dsl
+fiona
+#GDAL>=3.0.0
+geoalchemy
+netCDF4
+pandas; python_version < '3.7'
+pandas==1.2.5; python_version >= '3.7'
+psycopg2
+pygeofilter[backend-sqlalchemy]
+pygeoif
+pygeometa
+pymongo==3.10.1
+scipy
+sodapy
+xarray
+zarr

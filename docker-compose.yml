@@ -5,11 +5,11 @@ services:
   #   container_name: ${REACT_APP_CONTAINER_NAME}
   #   build:
   #     context: .
-  #     dockerfile: ./Kioku_App/Dockerfile
+  #     dockerfile: ./Kioku_ReactApp/Dockerfile
   #   ports:
   #     - ${REACT_APP_EXTERNAL_PORT}:${REACT_APP_INTERNAL_PORT}
   #   volumes:
-  #     - ./Kioku_App:/app
+  #     - ./Kioku_ReactApp:/app
   #   networks:
   #     - kioku_net
 
@@ -43,6 +43,36 @@ services:
       - ${PGADMIN_EXTERNAL_PORT}:${PGADMIN_INTERNAL_PORT}
     depends_on:
       - postgis_db
+    networks:
+      - kioku_net
+
+  pygeoapi:
+    container_name: ${PYGEOAPI_CONTAINER_NAME}
+    build:
+      context: .
+      dockerfile: ./Kioku_PyGeoAPI/${PYGEOAPI_PKG}/Dockerfile
+      args:
+        PYGEOAPI_PKG: ${PYGEOAPI_PKG}
+    volumes:
+      - ./Kioku_PyGeoAPI/pygeoapi-config.yml:/pygeoapi/local.config.yml
+      - ./Kioku_PyGeoAPI/requirements.txt:/pygeoapi/requirements.txt
+    ports:
+      - ${PYGEOAPI_EXTERNAL_PORT}:${PYGEOAPI_INTERNAL_PORT}
+    env_file:
+      - .env_variables
+    environment:
+      # used within the entrypoint + pygeoapi-config.yml to start the server
+      WSGI_WORKERS: 1
+      EXT_HOST: 0.0.0.0
+      EXT_PORT: ${PYGEOAPI_EXTERNAL_PORT}
+      EXT_URL: http://localhost:${PYGEOAPI_EXTERNAL_PORT}
+      # use to configure other services access (pygeoapi-config.yml)
+      DB_HOST: ${DB_CONTAINER_NAME}
+      DB_PORT: ${DB_INTERNAL_PORT}
+    # depends_on:
+    #   - react_app
+    entrypoint:
+      ["wait-for.sh", "-t", "350", "--", "/usr/local/bin/entrypoint.sh"]
     networks:
       - kioku_net
 
