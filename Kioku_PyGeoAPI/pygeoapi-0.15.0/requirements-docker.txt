@@ -1,0 +1,14 @@
+elasticsearch-dsl<8
+geoalchemy
+pygeofilter[backend-sqlalchemy]
+pygeoif
+pygeometa
+sodapy
+geopandas
+pyarrow
+numpy
+shapely
+pyshp
+GDAL
+rtree
+matplotlib

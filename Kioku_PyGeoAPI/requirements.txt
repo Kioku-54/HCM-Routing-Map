@@ -1,0 +1,9 @@
+geopandas
+pyarrow
+numpy
+shapely
+pyshp
+GDAL
+rtree
+matplotlib
+env_risk_tool

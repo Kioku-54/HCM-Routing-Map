@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "@types/geojson": "^7946.0.13",
+    "mapbox-gl": "^3.0.1"
+  }
+}
