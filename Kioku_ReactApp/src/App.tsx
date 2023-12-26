@@ -1,12 +1,11 @@
 import './App.css'
+import MapComponent from './components/Map/Map'
 
 function App() {
   return (
-    <>
-      <div>
-        <p>Kioku Web App</p>
-      </div>
-    </>
+    <div className='h-screen w-screen'>
+      <MapComponent />
+    </div>
   )
 }
 
