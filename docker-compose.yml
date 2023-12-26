@@ -5,11 +5,12 @@ services:
   #   container_name: ${REACT_APP_CONTAINER_NAME}
   #   build:
   #     context: .
-  #     dockerfile: ./Kioku_ReactApp/Dockerfile
+  #     dockerfile: ./Kioku_ReactApp/Dockerfile.dev
   #   ports:
   #     - ${REACT_APP_EXTERNAL_PORT}:${REACT_APP_INTERNAL_PORT}
   #   volumes:
   #     - ./Kioku_ReactApp:/app
+  #     - "/app/node_modules"
   #   networks:
   #     - kioku_net
 
