@@ -95,90 +95,42 @@ metadata:
     role: pointOfContact
 
 resources:
-  #   world:
-  #     type: collection
-  #     title: World Countries
-  #     description: World Countries
-  #     keywords:
-  #       - world
-  #       - countries
-  #     linked-data:
-  #       context:
-  #         - datetime: https://schema.org/DateTime
-  #         - vocab: https://example.com/vocab#
-  #           stn_id: "vocab:stn_id"
-  #           value: "vocab:value"
-  #     links:
-  #       - type: text/csv
-  #         rel: canonical
-  #         title: data
-  #         href: https://github.com/mapserver/mapserver/blob/branch-7-0/msautotest/wxs/data/obs.csv
-  #         hreflang: en-US
-  #       - type: text/csv
-  #         rel: alternate
-  #         title: data
-  #         href: https://raw.githubusercontent.com/mapserver/mapserver/branch-7-0/msautotest/wxs/data/obs.csv
-  #         hreflang: en-US
-  #     extents:
-  #       spatial:
-  #         bbox: [-180, -90, 180, 90]
-  #         crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-  #       temporal:
-  #         begin: 2000-10-30T18:24:39Z
-  #         end: 2007-10-30T08:57:29Z
-  #     providers:
-  #       - type: feature
-  #         name: PostgreSQL
-  #         data:
-  #           host: ${PG_HOST}
-  #           port: 5432 # Default 5432 if not provided
-  #           dbname: eudr
-  #           user: ${APP_USER}
-  #           password: ${APP_USER_PWD}
-  #           search_path: [envrisktool, public]
-  #         id_field: iso3
-  #         table: process_run_steps_worldborder
-  #         geom_field: mpoly
-
-  obs:
+  building:
     type: collection
-    title: Observations
-    description: My cool observations
+    title: Building_Height
+    description: Building With Height
     keywords:
-      - observations
-      - monitoring
-    linked-data:
-      context:
-        - datetime: https://schema.org/DateTime
-        - vocab: https://example.com/vocab#
-          stn_id: "vocab:stn_id"
-          value: "vocab:value"
+      - building
+      - height
     links:
-      - type: text/csv
+      - type: text/html
         rel: canonical
-        title: data
-        href: https://github.com/mapserver/mapserver/blob/branch-7-0/msautotest/wxs/data/obs.csv
-        hreflang: en-US
-      - type: text/csv
-        rel: alternate
-        title: data
-        href: https://raw.githubusercontent.com/mapserver/mapserver/branch-7-0/msautotest/wxs/data/obs.csv
-        hreflang: en-US
+        title: Source instructions for loading data
+        href: https://github.com/geopython/pygeoapi/blob/master/pygeoapi/provider/postgresql.py
+        hreflang: en-UK
     extents:
       spatial:
         bbox: [-180, -90, 180, 90]
         crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
       temporal:
-        begin: 2000-10-30T18:24:39Z
-        end: 2007-10-30T08:57:29Z
+        begin: null
+        end: null # or empty (either means open ended)
     providers:
       - type: feature
-        name: CSV
-        data: tests/data/obs.csv
+        name: PostgreSQL
+        data:
+          host: kioku.database
+          dbname: postgres
+          user: postgres
+          password: password
+          search_path: [public]
         id_field: id
-        geometry:
-          x_field: long
-          y_field: lat
+        table: Building_Height
+        geom_field: geom
+        crs:
+          - http://www.opengis.net/def/crs/EPSG/0/4326
+          - http://www.opengis.net/def/crs/EPSG/0/32648
+        storage_crs: http://www.opengis.net/def/crs/EPSG/0/32648
 
   lakes:
     type: collection
@@ -341,13 +293,3 @@ resources:
     type: process
     processor:
       name: HelloWorld
-
-  # geom-details:
-  #   type: process
-  #   processor:
-  #     name: env_risk_tool.geom_details.GeomProcessor
-
-  # validation:
-  #   type: process
-  #   processor:
-  #     name: env_risk_tool.validation.ValidationProcessor

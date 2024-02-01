@@ -1,18 +1,19 @@
 version: "3.9"
 
 services:
-  # react_app:
-  #   container_name: ${REACT_APP_CONTAINER_NAME}
-  #   build:
-  #     context: .
-  #     dockerfile: ./Kioku_ReactApp/Dockerfile.dev
-  #   ports:
-  #     - ${REACT_APP_EXTERNAL_PORT}:${REACT_APP_INTERNAL_PORT}
-  #   volumes:
-  #     - ./Kioku_ReactApp:/app
-  #     - "/app/node_modules"
-  #   networks:
-  #     - kioku_net
+  react_app:
+    container_name: ${REACT_APP_CONTAINER_NAME}
+    build:
+      context: .
+      dockerfile: ./Kioku_ReactApp/Dockerfile
+    ports:
+      - ${REACT_APP_EXTERNAL_PORT}:${REACT_APP_INTERNAL_PORT}
+    volumes:
+      - ./Kioku_ReactApp/src:/app/src
+    depends_on:
+      - routing
+    networks:
+      - kioku_net
 
   postgis_db:
     container_name: ${DB_CONTAINER_NAME}
@@ -77,6 +78,25 @@ services:
     networks:
       - kioku_net
 
+  routing:
+    container_name: ${ROUTING_CONTAINER_NAME}
+    image: osrm/osrm-backend
+    ports:
+      - "8082:5000"
+    command: >
+      sh -c "/script/build.sh"
+    volumes:
+      - routingData:/data
+      - ./Kioku_Routing/script/:/script
+
 networks:
   kioku_net:
     driver: bridge
+
+volumes:
+  routingData:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "./Kioku_Routing/data"

@@ -55,3 +55,10 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
+
+# Kioku Routing
+Kioku_Routing/ogr2osm/*
+Kioku_Routing/data/*
+
+# Kioku Data
+Kioku_Data/*
