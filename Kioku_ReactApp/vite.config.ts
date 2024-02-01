@@ -6,7 +6,12 @@ import path from 'path'
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3000
+    watch: {
+      usePolling: true
+    },
+    host: true,
+    strictPort: true,
+    port: 8080
   },
   css: {
     devSourcemap: true
