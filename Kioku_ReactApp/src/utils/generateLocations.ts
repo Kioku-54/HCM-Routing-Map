@@ -1,6 +1,6 @@
 /* eslint-disable no-constant-condition */
 import * as turf from '@turf/turf'
-import { LocationForRoute } from 'src/types/simulate-vehicle.type'
+import { LocationForRouteType } from 'src/types/simulate-vehicle.type'
 
 const polygonCoordinates = [
   [
@@ -42,7 +42,7 @@ const randomPointInBbox = () => {
   }
 }
 
-export const randomPointsWithMinDistance = async (minDistance: number): Promise<LocationForRoute> => {
+export const randomPointsWithMinDistance = async (minDistance: number): Promise<LocationForRouteType> => {
   let startPoint, endPoint
 
   while (true) {

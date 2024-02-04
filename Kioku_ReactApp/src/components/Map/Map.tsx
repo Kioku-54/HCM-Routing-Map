@@ -14,17 +14,19 @@ const MapComponent = () => {
   const addBuildingData = (current_map: Map | null) => {
     if (current_map === null) return
 
-    geojsonLayer.addGeoJsonSource({
-      map: current_map,
-      sourceId: LAYERS_CONFIG.BUILDING_LAYER.sourceId,
-      data: LAYERS_CONFIG.BUILDING_LAYER.data
-    })
+    current_map.on('load', () => {
+      geojsonLayer.addGeoJsonSource({
+        map: current_map,
+        sourceId: LAYERS_CONFIG.BUILDING_LAYER.sourceId,
+        data: LAYERS_CONFIG.BUILDING_LAYER.data
+      })
 
-    geojsonLayer.addFillGeoJsonLayer({
-      map: current_map,
-      sourceId: LAYERS_CONFIG.BUILDING_LAYER.sourceId,
-      layerId: LAYERS_CONFIG.BUILDING_LAYER.layerId,
-      paint: LAYERS_CONFIG.BUILDING_LAYER.paint
+      geojsonLayer.addFillGeoJsonLayer({
+        map: current_map,
+        sourceId: LAYERS_CONFIG.BUILDING_LAYER.sourceId,
+        layerId: LAYERS_CONFIG.BUILDING_LAYER.layerId,
+        paint: LAYERS_CONFIG.BUILDING_LAYER.paint
+      })
     })
   }
 
@@ -39,24 +41,15 @@ const MapComponent = () => {
       center: [environment.config.initLng, environment.config.initLat]
     })
 
-    map.current.on('load', () => {
-      const current_map = map.current
-      addBuildingData(current_map)
-    })
+    const current_map = map.current
+
+    addBuildingData(current_map)
+    handleRoutingLayers(current_map)
 
     return () => {
       if (map.current) {
         map.current.remove()
       }
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!map.current) return
-    const current_map = map.current
-
-    for (let i = 0; i <= 20; i++) {
-      handleRoutingLayers(current_map, i, 0.05)
     }
   }, [])
 
